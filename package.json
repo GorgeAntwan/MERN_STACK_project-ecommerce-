@@ -1,0 +1,36 @@
+{
+  "name": "e-commerce-project",
+  "version": "1.0.0",
+  "description": "MERN Shoping Cart App",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node backend/server",
+    "server": "nodemon backend/server",
+    "client": "npm start --prefix frontend",
+    "dev": "concurrently \" npm run server \" \"npm run client\"",
+    "data:import": "node backend/seeder",
+    "data:destory": "node backend/seeder -d"
+  },
+  "author": "Gorge",
+  "license": "MIT",
+  "dependencies": {
+    "async-handler": "0.0.3",
+    "bcryptjs": "^2.4.3",
+    "color": "^3.1.3",
+    "colors": "^1.4.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.13",
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.7"
+  }
+}
