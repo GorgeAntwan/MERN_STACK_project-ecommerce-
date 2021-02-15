@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import dotenv from 'dotenv';
 import products from'./data/products.js';
 import connectDB from './config/db.js';
@@ -6,6 +7,7 @@ import Colors from 'colors';
 import productRoutes from "./routes/productRoutes.js"
 import userRoutes from "./routes/userRoutes.js"
 import orderRoutes  from "./routes/orderRoutes.js"
+import uploadRoutes  from "./routes/uploadRoutes.js"
 import { errorHandler,notfoundHandler } from './middelware/errorMiddelware.js';
 const app = express();
 dotenv.config();  
@@ -29,7 +31,7 @@ app.use(function (req, res, next) {
   
     // Pass to next layer of middleware
     next();
-  });
+  }); 
   app.use(express.json());
 app.get('/',(req,res)=>{
    res.send("API Is Running");
@@ -37,8 +39,16 @@ app.get('/',(req,res)=>{
 app.use('/api/products',productRoutes);
 app.use('/api/users/',userRoutes);
 app.use('/api/orders/',orderRoutes);
+app.use('/api/upload/',uploadRoutes);
+app.get('/api/config/paypal',(req,res)=>{ 
+  res.send(process.env.PAYPAL_CLIENT_ID)
+})
+const __dirname = path.resolve();
+app.use('/upload',express.static(path.join(__dirname,'/upload')))
 app.use(notfoundHandler);// to handle not found response with response 404
 app.use(errorHandler);// to handle server error with response 500
+
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT,console.log(`server is running in ${process.env.NODE_ENV} Mode On  port ${PORT}`.yellow.underline)); 

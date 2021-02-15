@@ -1,18 +1,37 @@
 import express from 'express';
 import  {
     getAllProduct,
-    getProductById
+    getProductById,
+    deleteProduct,
+    createProduct,
+    updateProduct
 } from '../controllers/productCotroller.js';
+import {protect,admin} from '../middelware/authMiddelware.js';
 const router =express.Router();
+
 //@desc: Fetch All Products
 //@route: Get /api/products
 //@access : Public
 
-router.route('/').get(getAllProduct);
+//@desc: CREATE  NEW PRODUCT  
+//@route: POST /api/products
+//@access : private ,admin
+
+router.route('/').get(getAllProduct).post(protect,admin,createProduct);
+
 
 //@desc: Fetch Singel Product
 //@route: Get /api/products/:id
 //@access : Public
 
-router.route('/:id').get(getProductById);  
+//@desc: DELETE PRODUCT BY PRODUCT ID
+//@route: Delete /api/products/:id
+//@access : private ,admin
+
+//@desc: UPDATE  PRODUCT  BY ID 
+//@route: PUT /api/products/id
+//@access : private ,admin
+
+router.route('/:id').get(getProductById).delete(protect,admin,deleteProduct).put(protect,admin,updateProduct);  
+
 export default router;
