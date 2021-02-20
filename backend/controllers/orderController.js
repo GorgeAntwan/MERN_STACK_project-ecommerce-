@@ -96,4 +96,43 @@ const getMyOrder = asyncHandler(async(req,res)=>{
 
 });
 
-export  {addOrderItem,getOrderById,updateOrderToPayed,getMyOrder};
+//@desc: get all order
+//@route: GET /api/orders/
+//@access : Private/Admin
+const getOrder = asyncHandler(async(req,res)=>{
+   
+     
+    
+    const order =await Order.find().populate('user','id name');
+     console.log("🚀 ~ file: orderController.js ~ line 107 ~ getOrder ~ order", order)
+   
+    if(order){
+      
+        res.status(200).json(order);
+    } else{
+        res.status(400);
+        throw new Error('not found order');
+    }   
+
+});
+
+//@desc: Update order Delivered by id
+//@route: PUT /api/orders/:id/deliver
+//@access : Private
+const updateOrderToDelivered = asyncHandler(async(req,res)=>{
+
+    
+    const order =await Order.findById(req.params.id);
+    if(order){
+        order.isDelivered = true;
+        order.deliveredAt = Date.now();
+        
+        const updateOrdr = await order.save();
+        res.status(200).json(updateOrdr);
+    } else{
+        res.status(400);
+        throw new Error('not found order');
+    }   
+
+});
+export  {addOrderItem,getOrderById,updateOrderToPayed,getMyOrder,getOrder,updateOrderToDelivered};

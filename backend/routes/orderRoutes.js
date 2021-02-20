@@ -3,7 +3,9 @@ import  {
     addOrderItem,
     getOrderById,
     updateOrderToPayed,
-    getMyOrder
+    getMyOrder,
+    getOrder,
+    updateOrderToDelivered
 } from '../controllers/orderController.js';
 import {protect,admin} from '../middelware/authMiddelware.js';
 const router =express.Router();
@@ -12,7 +14,11 @@ const router =express.Router();
 //@route: POST /api/orders
 //@access : Private
 
-router.route('/').post(protect,addOrderItem);
+//@desc: get all order
+//@route: GET /api/orders/
+//@access : Private/Admin
+
+router.route('/').post(protect,addOrderItem).get(protect,admin,getOrder);
 
 //@desc: GET order by id
 //@route: GET /api/orders
@@ -27,6 +33,10 @@ router.route('/:id/pay').put(protect,updateOrderToPayed);
 //@desc: get logged in user order
 //@route: GET /api/orders/
 //@access : Private
-
 router.route('/').get(protect,admin,getMyOrder);
+
+//@desc: Update order Delivered by id
+//@route: PUT /api/orders/:id/deliver
+//@access : Private
+router.route('/:id/deliver').put(protect,admin,updateOrderToDelivered);
 export default router;  

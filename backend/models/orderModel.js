@@ -44,7 +44,7 @@ const orderSchema = mongoose.Schema({
         required:true,
         default:0.0
     },
-    isPyed:{
+    isPaid:{
         type:Boolean,
         required:true,
         default:false

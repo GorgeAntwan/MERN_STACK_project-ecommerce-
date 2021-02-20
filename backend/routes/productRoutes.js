@@ -4,7 +4,8 @@ import  {
     getProductById,
     deleteProduct,
     createProduct,
-    updateProduct
+    updateProduct,
+    createProductReview
 } from '../controllers/productCotroller.js';
 import {protect,admin} from '../middelware/authMiddelware.js';
 const router =express.Router();
@@ -33,5 +34,11 @@ router.route('/').get(getAllProduct).post(protect,admin,createProduct);
 //@access : private ,admin
 
 router.route('/:id').get(getProductById).delete(protect,admin,deleteProduct).put(protect,admin,updateProduct);  
+
+//@desc: CREATE  NEW PRODUCT  Review
+//@route: POST /api/products/:id/reviews
+//@access : private 
+
+router.route('/:id/reviews').post(protect,createProductReview);
 
 export default router;

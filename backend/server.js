@@ -9,6 +9,7 @@ import userRoutes from "./routes/userRoutes.js"
 import orderRoutes  from "./routes/orderRoutes.js"
 import uploadRoutes  from "./routes/uploadRoutes.js"
 import { errorHandler,notfoundHandler } from './middelware/errorMiddelware.js';
+import morgan from 'morgan';
 const app = express();
 dotenv.config();  
 connectDB(); 
@@ -32,6 +33,9 @@ app.use(function (req, res, next) {
     // Pass to next layer of middleware
     next();
   }); 
+  if(process.env.NODE_ENV==='development'){
+    app.use(morgan('dev'));
+  }
   app.use(express.json());
 app.get('/',(req,res)=>{
    res.send("API Is Running");
