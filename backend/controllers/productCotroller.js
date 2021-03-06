@@ -3,13 +3,23 @@ import Product from '../models/productModel.js';
 import asyncHandler from 'express-async-handler';
  
 //@desc: Fetch All Products
-//@route: Get /api/products
+//@route: Get /api/products?keyword =''
 //@access : Public
 const getAllProduct = asyncHandler(async(req,res)=>{
 
-    const products =await Product.find({});
+    const pageSize = 2;//how many products display by page
+    const page = Number(req.query.pageNumber) || 1;
+
+    const keyword = req.query.keyword ? {
+        name :{
+           $regex : req.query.keyword,
+           $options:'i'
+        }
+    }:{};
+    const count = await Product.countDocuments({...keyword});
+    const products =await Product.find({...keyword}).limit(pageSize).skip(pageSize * (page -1));
     
-    res.json(products);
+    res.json({products , page , pages:Math.ceil(count/pageSize) });
 });
 
 //@desc: Fetch Singel Product
