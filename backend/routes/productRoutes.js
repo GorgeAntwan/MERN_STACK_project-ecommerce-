@@ -5,7 +5,8 @@ import  {
     deleteProduct,
     createProduct,
     updateProduct,
-    createProductReview
+    createProductReview,
+    getTopProducts
 } from '../controllers/productCotroller.js';
 import {protect,admin} from '../middelware/authMiddelware.js';
 const router =express.Router();
@@ -20,6 +21,10 @@ const router =express.Router();
 
 router.route('/').get(getAllProduct).post(protect,admin,createProduct);
 
+//@desc: GET  TOP PRODUCT  Review
+//@route: GET /api/products/top 
+//@access : Public 
+router.route('/top').get(getTopProducts)
 
 //@desc: Fetch Singel Product
 //@route: Get /api/products/:id
@@ -40,5 +45,6 @@ router.route('/:id').get(getProductById).delete(protect,admin,deleteProduct).put
 //@access : private 
 
 router.route('/:id/reviews').post(protect,createProductReview);
+
 
 export default router;
